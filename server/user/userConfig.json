@@ -1,0 +1,6 @@
+{
+  "userGroup": {
+    "values": ["superAdmin", "moderator", "candidate", "company"],
+    "default": "candidate"
+  }
+}
