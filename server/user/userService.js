@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const User = require("./userModel");
-const responseMessage = require("../utils/responseMessage");
-const sendEmail = require("../utils/sendEmail");
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const User = require('./userModel');
+const responseMessage = require('../utils/responseMessage');
+const sendEmail = require('../utils/sendEmail');
 
 const signToken = (id) => {
   return jwt.sign({ id }, JWT_SECRET, {
@@ -32,15 +32,15 @@ module.exports = {
         email,
         password,
         passwordConfirm,
-        group
+        group,
       });
       const token = signToken(user._id);
       const response = new responseMessage.GenericSuccessMessage();
       response.data = {
-        message: "User created successsfully !",
-        userId : user._id
+        message: 'User created successsfully !',
+        userId: user._id,
       };
-      response.token = token
+      response.token = token;
       return callback(null, response, response.code);
     } catch (err) {
       console.log(`ERROR:::${err}`);
@@ -59,7 +59,7 @@ module.exports = {
         return callback(null, response, response.code);
       }
       // 2) Check if user exists && password is correct
-      const user = await User.findOne({ email }).select("+password");
+      const user = await User.findOne({ email }).select('+password');
 
       if (!user || !(await user.correctPassword(password, user.password))) {
         const response = new responseMessage.AuthenticationFailure();
@@ -70,6 +70,7 @@ module.exports = {
       const token = signToken(user._id);
       const response = new responseMessage.AuthenticationSuccess();
       response.token = token;
+      response.group = user.group;
       return callback(null, response, response.code);
     } catch (err) {
       console.log(`ERROR:::${err}`);
@@ -105,7 +106,7 @@ module.exports = {
     } = req;
 
     try {
-      const user = await User.findById(id).select("+password");
+      const user = await User.findById(id).select('+password');
 
       const correct = await user.correctPassword(
         currentPassword,
@@ -156,7 +157,7 @@ module.exports = {
       try {
         await sendEmail({
           email,
-          subject: "Password Reset Mail",
+          subject: 'Password Reset Mail',
           message,
         });
 
@@ -182,9 +183,9 @@ module.exports = {
   resetPassword: async (req, callback) => {
     const { token } = req.params;
     const passwordResetToken = crypto
-      .createHash("sha256")
+      .createHash('sha256')
       .update(token)
-      .digest("hex");
+      .digest('hex');
 
     const user = await User.findOne({
       passwordResetToken,
