@@ -13,4 +13,4 @@ const moderatorSchema = mongoose.Schema({
 });
 
 moderatorSchema.plugin(mongoosePaginate);
-module.exports = mongoose.mainConnection.model('moderator',moderatorSchema,'moderators');
+module.exports = mongoose.mainConnection.model('Moderator',moderatorSchema,'moderators');

@@ -38,6 +38,7 @@ module.exports = {
       const response = new responseMessage.GenericSuccessMessage();
       response.data = {
         message: "User created successsfully !",
+        userId : user._id
       };
       response.token = token
       return callback(null, response, response.code);
