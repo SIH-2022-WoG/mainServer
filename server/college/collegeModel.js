@@ -3,16 +3,17 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const validators = require('../utils/validators');
+const media = require('../models/media').mediaDetails;
 
 const collegeSchema = mongoose.Schema({
     name : {
         type : String,
         required : true,
+        unique : true
     },
     code : {
         type : String,
         required : true,
-        unique : true
     },
     address : {
         type : String,
@@ -40,7 +41,8 @@ const collegeSchema = mongoose.Schema({
     numThesis : {
         type : Number,
         default : 0
-    }
+    },
+
 },{
     timestamps : true
 });
