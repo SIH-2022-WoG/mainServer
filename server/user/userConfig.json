@@ -1,6 +1,6 @@
 {
   "userGroup": {
-    "values": ["superAdmin", "moderator", "candidate", "company"],
-    "default": "candidate"
+    "values": ["student","professor","moderator"],
+    "default": "student"
   }
 }

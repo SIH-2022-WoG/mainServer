@@ -49,3 +49,6 @@ package-lock.json
 !example.env
 
 *apiKeys.json
+
+# local files
+_localNotes.txt

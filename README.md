@@ -8,3 +8,10 @@
 npm i
 npm run dev:start
 ```
+
+## Create a new app
+
+```
+npm run createapp <appname>
+```
+
