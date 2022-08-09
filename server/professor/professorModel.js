@@ -2,6 +2,8 @@
 
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const collegeDetails = require('../models/college').collegeDetails
+const media = require('../models/media').mediaDetails
 
 const professorSchema = mongoose.Schema({
 
@@ -16,7 +18,21 @@ const professorSchema = mongoose.Schema({
         type : mongoose.Types.ObjectId,
         ref : 'User',
         unique : true
-    }
+    },
+    numThesis : {
+        type : Number,
+        default : 0
+    },
+    college : {
+        type : collegeDetails,
+    },
+    avatar : {
+        type : media
+    },
+    description : {
+        type : String
+    },
+
 }, {
     timestamps : true
 });
