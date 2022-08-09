@@ -15,6 +15,9 @@ const professorSchema = mongoose.Schema({
     phoneNumber : {
         type : String
     },
+    designation :{
+        type : String
+    },
     user : {
         type : mongoose.Types.ObjectId,
         ref : 'User',
@@ -24,7 +27,7 @@ const professorSchema = mongoose.Schema({
         type : Number,
         default : 0
     },
-    college : {
+    currCollege : {
         type : collegeDetails,
     },
     avatar : {
@@ -41,7 +44,10 @@ const professorSchema = mongoose.Schema({
     interests : [{
         type : String,
         trim : true
-    }]
+    }],
+    pastColleges : {
+        type : collegeDetails
+    }
 
 }, {
     timestamps : true
