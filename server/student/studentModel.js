@@ -3,23 +3,20 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 
-const professorSchema = mongoose.Schema({
-
+const studentSchema = mongoose.Schema({
     name : {
         type : String,
-        required: true
-    },
-    phoneNumber : {
-        type : String
+        required : true
     },
     user : {
         type : mongoose.Types.ObjectId,
         ref : 'User',
         unique : true
-    }
-}, {
+    },
+    
+},{
     timestamps : true
 });
 
-professorSchema.plugin(mongoosePaginate);
-module.exports = mongoose.mainConnection.model('Professor',professorSchema,'professors');
+studentSchema.plugin(mongoosePaginate);
+module.exports = mongoose.mainConnection.model('student',studentSchema,'students');
