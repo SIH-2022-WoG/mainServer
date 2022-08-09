@@ -28,6 +28,18 @@ const collegeSchema = mongoose.Schema({
     },
     nirfRanking : {
         type : Number
+    },
+    numProffEnrolled : {
+        type : Number,
+        default : 0
+    },
+    numStudentsEnrolled : {
+        type : Number,
+        default : 0
+    },
+    numThesis : {
+        type : Number,
+        default : 0
     }
 },{
     timestamps : true
