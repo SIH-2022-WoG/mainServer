@@ -23,10 +23,11 @@ module.exports = {
   signup: (req, res) => {
     userService.signup(req.body, async (err, userRes, statusCode) => {
       sendToken(res, userRes);
-      const userId = userRes.userId;
+      const userId = userRes.data.userId;
       const group = req.body.group;
       console.log(group);
       let newuser;
+      console.log(userId);
       try {
         if (group == 'student') {
           newuser = await Student.create({

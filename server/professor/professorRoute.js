@@ -5,7 +5,7 @@ const professorController = require('./professorController');
 const professorRouter = express.Router();
 
 professorRouter.patch('/updateProfile', (req, res, next) => {
-  professorController.updateProfile();
+  professorController.updateProfile(req, res);
 });
 
 module.exports = {

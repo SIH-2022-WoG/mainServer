@@ -4,10 +4,8 @@ const professorService = require('./professorService');
 const responseHelper = require('../utils/responseHelper');
 
 module.exports = {
-  updateProfile: professorService.updateProfile(
-    req,
-    (err, resdata, statuscode) => {
-      responseHelper(null, err, resdata, statuscode);
-    }
-  ),
+  updateProfile: (req, res) =>
+    professorService.updateProfile(req, (err, resdata, statuscode) => {
+      responseHelper(err, res, resdata, statuscode);
+    }),
 };

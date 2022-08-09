@@ -7,11 +7,19 @@ module.exports = {
   updateProfile: async (req, callback) => {
     let response;
     try {
-      const userId = req.userId;
+      const userId = req.user._id;
+      if (!userId) {
+        response = new responseMessage.GenericFailureMessage();
+        return callback(null, response, response.code);
+      }
+      console.log('INFO ::: ', userId);
       const prof = await Professor.findOneAndUpdate(
         { user: userId },
         req.body,
-        { new: true, runValidators: true }
+        {
+          runValidators: true,
+          new: true,
+        }
       );
       if (!prof) {
         response = new responseMessage.ObjectDoesNotExistInDB();
