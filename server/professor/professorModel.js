@@ -2,8 +2,9 @@
 
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
-const collegeDetails = require('../models/college').collegeDetails
-const media = require('../models/media').mediaDetails
+const collegeDetails = require('../models/college').collegeDetails;
+const media = require('../models/media').mediaDetails;
+const commonConfig = require('../commonConfig.json')
 
 const professorSchema = mongoose.Schema({
 
@@ -32,10 +33,20 @@ const professorSchema = mongoose.Schema({
     description : {
         type : String
     },
+    branch : {
+        type : String, 
+        enum : commonConfig.branch.values,
+        default : commonConfig.branch.default
+    },
+    interests : [{
+        type : String,
+        trim : true
+    }]
 
 }, {
     timestamps : true
 });
 
 professorSchema.plugin(mongoosePaginate);
+professorSchema.index({'branch' : 1 , 'interests' : 1})
 module.exports = mongoose.mainConnection.model('Professor',professorSchema,'professors');

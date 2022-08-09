@@ -1,1 +1,6 @@
-{}
+{
+    "branch" : {
+        "values" : ["Electrical", "Electronics", "Computer Science", "IT", "Mechanical", "Misc"],
+        "default" : "Misc"
+    }
+}
