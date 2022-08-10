@@ -13,7 +13,10 @@ const {
   professorRouter,
   professorPublicRouter,
 } = require('./server/professor/professorRoute');
-const { studentRouter } = require('./server/student/studentRoute');
+const {
+  studentRouter,
+  studentPublicRouter,
+} = require('./server/student/studentRoute');
 const { moderatorRouter } = require('./server/moderator/moderatorRoute');
 const {
   collegeProtectedRouter,
@@ -26,7 +29,8 @@ module.exports = function (app) {
   app.use('/user/prl', [], preloginRouter);
   app.use('/prof/protected', [isUserJWTAutheticatedMW], professorRouter);
   app.use('/prof/public', [], professorPublicRouter);
-  app.use('/student', [isUserJWTAutheticatedMW], studentRouter);
+  app.use('/student/protected', [isUserJWTAutheticatedMW], studentRouter);
+  app.use('/student/public', [], studentPublicRouter);
   app.use(
     '/moderator',
     [isUserJWTAutheticatedMW, isUserModeratorMW],
