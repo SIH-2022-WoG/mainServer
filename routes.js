@@ -12,6 +12,7 @@ const {
 const { professorRouter } = require('./server/professor/professorRoute');
 const { studentRouter } = require('./server/student/studentRoute');
 const { moderatorRouter } = require('./server/moderator/moderatorRoute');
+const { collegeProtectedRouter } = require('./server/college/collegeRoute');
 
 module.exports = function (app) {
   app.use('/healthcheck', healthCheck);
@@ -23,5 +24,10 @@ module.exports = function (app) {
     '/moderator',
     [isUserJWTAutheticatedMW, isUserModeratorMW],
     moderatorRouter
+  );
+  app.use(
+    '/college/protected',
+    [isUserJWTAutheticatedMW],
+    collegeProtectedRouter
   );
 };

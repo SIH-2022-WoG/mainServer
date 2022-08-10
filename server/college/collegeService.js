@@ -74,4 +74,28 @@ module.exports = {
     };
     getPaginatedResults(query, options, callback);
   },
+
+  updateProfile: async (req, callback) => {
+    let response;
+    const collegeId = req.query.id;
+
+    if (!collegeId) {
+      response = responseMessage.incorrectPayload;
+      return callback(null, response, response.code);
+    }
+
+    try {
+      const newCollege = await College.findByIdAndUpdate(collegeId, req.body, {
+        new: true,
+        runValidators: true,
+      });
+      response = new responseMessage.GenericSuccessMessage();
+      response.data = newCollege;
+      return callback(null, response, response.code);
+    } catch (err) {
+      console.log('ERROR ::: ', err);
+      response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
+  },
 };
