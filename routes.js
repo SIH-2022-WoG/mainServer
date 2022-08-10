@@ -9,17 +9,28 @@ const {
   isUserJWTAutheticatedMW,
   isUserModeratorMW,
 } = require('./server/middlewares/user');
-const { professorRouter } = require('./server/professor/professorRoute');
-const { studentRouter } = require('./server/student/studentRoute');
+const {
+  professorRouter,
+  professorPublicRouter,
+} = require('./server/professor/professorRoute');
+const {
+  studentRouter,
+  studentPublicRouter,
+} = require('./server/student/studentRoute');
 const { moderatorRouter } = require('./server/moderator/moderatorRoute');
-const { collegeProtectedRouter } = require('./server/college/collegeRoute');
+const {
+  collegeProtectedRouter,
+  collegePublicRouter,
+} = require('./server/college/collegeRoute');
 
 module.exports = function (app) {
   app.use('/healthcheck', healthCheck);
 
   app.use('/user/prl', [], preloginRouter);
-  app.use('/prof', [isUserJWTAutheticatedMW], professorRouter);
-  app.use('/student', [isUserJWTAutheticatedMW], studentRouter);
+  app.use('/prof/protected', [isUserJWTAutheticatedMW], professorRouter);
+  app.use('/prof/public', [], professorPublicRouter);
+  app.use('/student/protected', [isUserJWTAutheticatedMW], studentRouter);
+  app.use('/student/public', [], studentPublicRouter);
   app.use(
     '/moderator',
     [isUserJWTAutheticatedMW, isUserModeratorMW],
@@ -30,4 +41,5 @@ module.exports = function (app) {
     [isUserJWTAutheticatedMW],
     collegeProtectedRouter
   );
+  app.use('/college/public', [], collegePublicRouter);
 };

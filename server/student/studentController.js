@@ -8,4 +8,9 @@ module.exports = {
     studentService.updateProfile(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     }),
+
+  viewProfile: (req, res) =>
+    studentService.viewProfile(req, (err, resdata, statuscode) => {
+      responseHelper(err, res, resdata, statuscode);
+    }),
 };

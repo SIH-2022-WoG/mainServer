@@ -3,13 +3,17 @@
 const express = require('express');
 const professorController = require('./professorController');
 const professorRouter = express.Router();
+const professorPublicRouter = express.Router();
 
 /**PATCH : update a professor profile */
 professorRouter.patch('/updateProfile', (req, res, next) => {
   professorController.updateProfile(req, res);
 });
 
-/**GET : get a professor */
+/**GET : view a professor */
+professorPublicRouter.get('/viewProfile', (req, res, next) => {
+  professorController.viewProfile(req, res);
+});
 
 /**GET : paginated professors */
 
@@ -21,4 +25,5 @@ professorRouter.post('/createCollege', (req, res, next) => {
 
 module.exports = {
   professorRouter,
+  professorPublicRouter,
 };

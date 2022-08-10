@@ -7,6 +7,7 @@ const responseMessage = require('../utils/responseMessage');
 const basicFilter = {
   name: 1,
   description: 1,
+  _id: 1,
 };
 
 /** Helper Function to Paginate The API */
@@ -91,6 +92,30 @@ module.exports = {
       });
       response = new responseMessage.GenericSuccessMessage();
       response.data = newCollege;
+      return callback(null, response, response.code);
+    } catch (err) {
+      console.log('ERROR ::: ', err);
+      response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
+  },
+
+  viewCollege: async (req, callback) => {
+    let response;
+    const collegeId = req.query.id;
+
+    if (!collegeId) {
+      response = responseMessage.incorrectPayload;
+      return callback(null, response, response.code);
+    }
+    try {
+      const college = await College.findById(collegeId);
+      if (college) {
+        response = new responseMessage.GenericSuccessMessage();
+        response.data = college;
+      } else {
+        response = new responseMessage.GenericFailureMessage();
+      }
       return callback(null, response, response.code);
     } catch (err) {
       console.log('ERROR ::: ', err);

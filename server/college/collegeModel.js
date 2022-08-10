@@ -48,12 +48,15 @@ const collegeSchema = mongoose.Schema(
       type: mongoose.ObjectId,
       required: true,
     },
+    moderatedBy: {
+      type: mongoose.ObjectId,
+    },
     status: {
       type: String,
       enum: collegeConfig.status.values,
       default: collegeConfig.status.default,
     },
-    companyDocs: {
+    collegeDocs: {
       type: [media],
     },
     avatar: {
