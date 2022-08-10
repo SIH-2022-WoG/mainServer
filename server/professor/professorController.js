@@ -14,6 +14,8 @@ module.exports = {
   createCollege: (req, res) => {
     if (!req.user) {
       const response = new responseMessage.GenericFailureMessage();
+      response.message = 'Professor ID missing';
+      console.log('INFO ::: Professor ID missing');
       return responseHelper(null, res, response, response.code);
     }
 
