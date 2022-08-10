@@ -1,1 +1,6 @@
-{}
+{
+    "status" : {
+        "values" : ["pending","active","inactive", "rejected"],
+        "default" : "pending"
+    }
+}
