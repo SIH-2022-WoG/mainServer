@@ -53,7 +53,7 @@ const collegeSchema = mongoose.Schema(
       enum: collegeConfig.status.values,
       default: collegeConfig.status.default,
     },
-    companyDocs: {
+    collegeDocs: {
       type: [media],
     },
     avatar: {
