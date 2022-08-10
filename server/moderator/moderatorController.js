@@ -10,4 +10,13 @@ module.exports = {
       responseHelper(err, res, resdata, statuscode);
     });
   },
+
+  setStatus: (req, res) => {
+    const user = req.user;
+    req.body.moderatedBy = user._id;
+
+    collegeService.updateProfile(req, (err, resdata, statuscode) => {
+      responseHelper(err, res, resdata, statuscode);
+    });
+  },
 };
