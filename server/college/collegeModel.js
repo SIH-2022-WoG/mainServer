@@ -48,7 +48,7 @@ const collegeSchema = mongoose.Schema(
       type: mongoose.ObjectId,
       required: true,
     },
-    isActive: {
+    status: {
       type: String,
       enum: collegeConfig.status.values,
       default: collegeConfig.status.default,
