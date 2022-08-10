@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const responseMessage = require('../utils/responseMessage');
-
+const responseHelper = require('../utils/responseHelper');
 const User = require('../user/userModel');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
 
     if (!token) {
       const result = responseMessage.tokenNotProvided;
-      return res.status(result.code).send(result);
+      return res.status(result.code).json(result);
     }
 
     try {
@@ -30,13 +30,13 @@ module.exports = {
       const currentUser = await User.findById(decoded.id);
       if (!currentUser) {
         const response = responseMessage.userPropertyNotFound;
-        return res.status(response.code).send(response);
+        return res.status(response.code).json(response);
       }
 
       // 4) Check if user changed password after the token was issued
       if (currentUser.changedPasswordAfter(decoded.iat)) {
         const response = responseMessage.accessDenied;
-        return res.status(response.code).send(response);
+        return res.status(response.code).json(response);
       }
 
       // GRANT ACCESS TO PROTECTED ROUTE
@@ -47,7 +47,18 @@ module.exports = {
     } catch (err) {
       console.log(`ERROR::${err}`);
       const response = responseMessage.tokenAuthenticationFailed;
-      res.status(400).send(response);
+      res.status(400).json(response);
+    }
+  },
+
+  isUserModeratorMW: (req, res, next) => {
+    const user = req.user;
+    if (user.group !== 'moderator') {
+      console.log('INFO ::: ', user.email, 'is not a moderator');
+      const response = responseMessage.accessDenied;
+      return responseHelper(null, res, response, response.code);
+    } else {
+      next();
     }
   },
 };
