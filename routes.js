@@ -9,7 +9,10 @@ const {
   isUserJWTAutheticatedMW,
   isUserModeratorMW,
 } = require('./server/middlewares/user');
-const { professorRouter } = require('./server/professor/professorRoute');
+const {
+  professorRouter,
+  professorPublicRouter,
+} = require('./server/professor/professorRoute');
 const { studentRouter } = require('./server/student/studentRoute');
 const { moderatorRouter } = require('./server/moderator/moderatorRoute');
 const {
@@ -21,7 +24,8 @@ module.exports = function (app) {
   app.use('/healthcheck', healthCheck);
 
   app.use('/user/prl', [], preloginRouter);
-  app.use('/prof', [isUserJWTAutheticatedMW], professorRouter);
+  app.use('/prof/protected', [isUserJWTAutheticatedMW], professorRouter);
+  app.use('/prof/public', [], professorPublicRouter);
   app.use('/student', [isUserJWTAutheticatedMW], studentRouter);
   app.use(
     '/moderator',

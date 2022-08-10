@@ -25,4 +25,9 @@ module.exports = {
       responseHelper(err, res, resdata, statuscode);
     });
   },
+
+  viewProfile: (req, res) =>
+    professorService.viewProfile(req, (err, resdata, statuscode) => {
+      responseHelper(err, res, resdata, statuscode);
+    }),
 };
