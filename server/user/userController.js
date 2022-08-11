@@ -23,6 +23,12 @@ module.exports = {
   signup: (req, res) => {
     userService.signup(req.body, async (err, userRes, statusCode) => {
       sendToken(res, userRes);
+      if (!userRes.data) {
+        console.log('ERROR ::: ', JSON.stringify(userRes));
+        userRes.message = `UserId not valid for ${JSON.stringify(req.body)}`;
+        return responseHelper(err, res, userRes, 400);
+      }
+
       const userId = userRes.data.userId;
       const group = req.body.group;
       console.log(group);
