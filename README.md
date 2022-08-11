@@ -15,3 +15,7 @@ npm run dev:start
 npm run createapp <appname>
 ```
 
+### Deployed on
+
+- https://mainserver-production.up.railway.app/
+- https://mainserver22.herokuapp.com/
