@@ -65,6 +65,10 @@ const collegeSchema = mongoose.Schema(
     logo: {
       type: media,
     },
+    website: {
+      type: String,
+      validate: validators.urlValidator,
+    },
   },
   {
     timestamps: true,
