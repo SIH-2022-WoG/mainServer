@@ -15,3 +15,11 @@ npm run dev:start
 npm run createapp <appname>
 ```
 
+### Deployed on
+
+- https://mainserver-production.up.railway.app/
+- https://mainserver22.herokuapp.com/
+
+### Postman Link
+
+- https://www.getpostman.com/collections/f74893e7e7a6feaaefc1
