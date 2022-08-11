@@ -25,8 +25,7 @@ module.exports = {
       sendToken(res, userRes);
       if (!userRes.data) {
         console.log('ERROR ::: ', JSON.stringify(userRes));
-        userRes.message = `UserId not valid for ${JSON.stringify(req.body)}`;
-        return responseHelper(err, res, userRes, 400);
+        return responseHelper(err, res, userRes, statusCode);
       }
 
       const userId = userRes.data.userId;
