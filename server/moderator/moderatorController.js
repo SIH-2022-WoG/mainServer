@@ -22,7 +22,7 @@ module.exports = {
 
   getPendingProfessors: (req, res) => {
     req.searchQuery = { status: 'pending' };
-    collegeService.getColleges(req, (err, resdata, statuscode) => {
+    professorService.getProfessors(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     });
   },
@@ -40,7 +40,7 @@ module.exports = {
     const user = req.user;
     req.body.moderatedBy = user._id;
 
-    collegeService.updateProfile(req, (err, resdata, statuscode) => {
+    studentService.updateProfile(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     });
   },
@@ -49,7 +49,7 @@ module.exports = {
     const user = req.user;
     req.body.moderatedBy = user._id;
 
-    collegeService.updateProfile(req, (err, resdata, statuscode) => {
+    professorService.updateProfile(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     });
   },
