@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const college = require('../models/college').collegeDetails;
 const commonConfig = require('../commonConfig.json');
+const media = require('../models/media').mediaDetails;
+const thesis = require('../models/thesis').thesisDetailsSchema;
 
 const studentSchema = mongoose.Schema(
   {
@@ -17,10 +19,6 @@ const studentSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User',
       unique: true,
-    },
-    numThesis: {
-      type: Number,
-      default: 0,
     },
     currCollege: {
       type: college,
@@ -41,6 +39,22 @@ const studentSchema = mongoose.Schema(
     ],
     grade: {
       type: String,
+    },
+    thesis: [
+      {
+        type: thesis,
+      },
+    ],
+    status: {
+      type: String,
+      enum: commonConfig.status.values,
+      default: commonConfig.status.default,
+    },
+    moderatedBy: {
+      type: mongoose.Types.ObjectId,
+    },
+    iDproof: {
+      type: [media],
     },
   },
   {
