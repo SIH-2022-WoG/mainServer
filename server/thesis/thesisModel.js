@@ -32,7 +32,7 @@ const thesisSchema = mongoose.Schema(
     document: {
       type: media,
     },
-    /**this contains a redunsant info */
+    /**this contains a redundant info */
     college: {
       type: college,
       required: true,
@@ -59,7 +59,7 @@ const thesisSchema = mongoose.Schema(
     },
     plagiarismReport: {
       type: Map,
-      of: [],
+      of: [mongoose.Types.ObjectId],
     },
     status: {
       type: String,
@@ -68,6 +68,7 @@ const thesisSchema = mongoose.Schema(
     },
     plagPercentage: {
       type: Number,
+      default: 0,
     },
   },
   {
@@ -76,6 +77,7 @@ const thesisSchema = mongoose.Schema(
 );
 
 thesisSchema.plugin(mongoosePaginate);
+thesisSchema.index({ branch: 1, interests: 1, collegeId: 1 });
 module.exports = mongoose.mainConnection.model(
   'thesis',
   thesisSchema,
