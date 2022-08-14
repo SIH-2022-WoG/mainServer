@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const validators = require('../utils/validators');
 const media = require('../models/media').mediaDetails;
-const collegeConfig = require('./collegeConfig.json');
+const commonConfig = require('../commonConfig.json');
 
 const collegeSchema = mongoose.Schema(
   {
@@ -52,8 +52,8 @@ const collegeSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: collegeConfig.status.values,
-      default: collegeConfig.status.default,
+      enum: commonConfig.status.values,
+      default: commonConfig.status.default,
     },
     collegeDocs: {
       type: [media],
