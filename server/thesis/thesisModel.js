@@ -39,6 +39,7 @@ const thesisSchema = mongoose.Schema(
     },
     collegeId: {
       type: mongoose.Types.ObjectId,
+      ref: 'College',
       required: true,
     },
     branch: {

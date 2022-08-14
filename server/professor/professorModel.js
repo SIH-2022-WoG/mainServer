@@ -15,6 +15,10 @@ const professorSchema = mongoose.Schema(
       trim: true,
       default: 'professor',
     },
+    collegeId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'College',
+    },
     phoneNumber: {
       type: String,
     },
@@ -76,7 +80,7 @@ const professorSchema = mongoose.Schema(
 );
 
 professorSchema.plugin(mongoosePaginate);
-professorSchema.index({ branch: 1, interests: 1 });
+professorSchema.index({ branch: 1, interests: 1, collegeId: 1 });
 module.exports = mongoose.mainConnection.model(
   'Professor',
   professorSchema,

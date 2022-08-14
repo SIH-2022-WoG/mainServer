@@ -23,6 +23,10 @@ const studentSchema = mongoose.Schema(
     currCollege: {
       type: college,
     },
+    collegeId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'College',
+    },
     pastColleges: {
       type: college,
     },
@@ -63,7 +67,7 @@ const studentSchema = mongoose.Schema(
 );
 
 studentSchema.plugin(mongoosePaginate);
-studentSchema.index({ interests: 1, branch: 1 });
+studentSchema.index({ interests: 1, branch: 1, collegeId: 1 });
 module.exports = mongoose.mainConnection.model(
   'student',
   studentSchema,
