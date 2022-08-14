@@ -4,7 +4,7 @@
         "default" : "Misc"
     },
     "status" : {
-        "values" : ["pending", "rejected", "active"],
-        "default" : "pending"
+        "values" : ["pending", "rejected", "active", "incomplete"],
+        "default" : "incomplete"
     }
 }
