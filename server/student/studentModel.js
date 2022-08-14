@@ -64,7 +64,7 @@ const studentSchema = mongoose.Schema(
 studentSchema.plugin(mongoosePaginate);
 studentSchema.index({ interests: 1, branch: 1, collegeId: 1 });
 module.exports = mongoose.mainConnection.model(
-  'student',
+  'Student',
   studentSchema,
   'students'
 );
