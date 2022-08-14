@@ -71,6 +71,7 @@ module.exports = {
       const response = new responseMessage.AuthenticationSuccess();
       response.token = token;
       response.group = user.group;
+      response.childId = user.childId;
       return callback(null, response, response.code);
     } catch (err) {
       console.log(`ERROR:::${err}`);

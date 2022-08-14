@@ -50,25 +50,19 @@ module.exports = {
   updateProfile: async (req, callback) => {
     let response;
     try {
-      let userId;
-      if (req.user.group === 'student') {
-        userId = req.user._id;
-      } else {
-        userId = req.query.id;
+      let studentId;
+      if (req.query && req.query.id) {
+        studentId = req.query.id;
+      } else if (req.user) {
+        studentId = req.user.childId;
       }
-      if (!userId) {
+
+      if (!studentId) {
         response = new responseMessage.GenericFailureMessage();
         return callback(null, response, response.code);
       }
-      console.log('INFO ::: ', userId);
-      let query;
-      if (req.query.id) {
-        query = { _id: req.query.id };
-      } else {
-        query = { user: userId };
-      }
 
-      const student = await Student.findOneAndUpdate(query, req.body, {
+      const student = await Student.findByIdAndUpdate(studentId, req.body, {
         runValidators: true,
         new: true,
       });
@@ -87,7 +81,12 @@ module.exports = {
   },
 
   viewProfile: async (req, callback) => {
-    const studentId = req.query.id;
+    let studentId;
+    if (req.query && req.query.id) {
+      studentId = req.query.id;
+    } else if (req.user) {
+      studentId = req.user.childId;
+    }
     let response;
     if (!studentId) {
       response = new responseMessage.GenericFailureMessage();
