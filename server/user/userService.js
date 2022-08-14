@@ -80,12 +80,22 @@ module.exports = {
   },
 
   updateProfile: async (req, callback) => {
-    const user = req.user;
+    const userId = req.userId || req.user._id;
+    if (!userId) {
+      const response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
+
     try {
-      const newUser = await User.findByIdAndUpdate(user.id, req.body, {
+      const newUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
         runValidators: true,
       });
+
+      if (!newUser) {
+        const response = new responseMessage.GenericFailureMessage();
+        return callback(null, response, response.code);
+      }
 
       const response = new responseMessage.GenericSuccessMessage();
       response.data = {

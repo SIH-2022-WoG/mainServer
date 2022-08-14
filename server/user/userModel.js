@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema(
         message: 'Passwords dont match !',
       },
     },
-    userId: {
+    childId: {
       type: mongoose.Types.ObjectId,
     },
     group: {

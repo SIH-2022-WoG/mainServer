@@ -51,15 +51,17 @@ module.exports = {
         console.log(err);
         // delete the created user
       }
-      // req.body = undefined;
-      console.log(newuser);
       req.body = {
-        userId: newuser._id,
+        childId: newuser._id,
       };
+      req.userId = userId;
       userService.updateProfile(req, (err, userRes, statusCode) => {
-        userRes.newuser = newuser;
-        responseHelper(err, res, userRes, statusCode);
+        if (parseInt(statusCode) === 400) {
+          console.log('error');
+        }
       });
+      userRes.newuser = newuser;
+      responseHelper(err, res, userRes, statusCode);
     });
   },
 
