@@ -15,7 +15,7 @@ module.exports = {
 
   getPendingStudents: (req, res) => {
     req.searchQuery = { status: 'pending' };
-    collegeService.getColleges(req, (err, resdata, statuscode) => {
+    studentService.getStudents(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     });
   },
