@@ -5,6 +5,7 @@ const mongoosePaginate = require('mongoose-paginate');
 const collegeDetails = require('../models/college').collegeDetails;
 const media = require('../models/media').mediaDetails;
 const commonConfig = require('../commonConfig.json');
+const thesis = require('../models/thesis').thesisDetailsSchema;
 
 const professorSchema = mongoose.Schema(
   {
@@ -51,6 +52,22 @@ const professorSchema = mongoose.Schema(
     ],
     pastColleges: {
       type: collegeDetails,
+    },
+    thesis: [
+      {
+        type: thesis,
+      },
+    ],
+    status: {
+      type: String,
+      enum: commonConfig.status.values,
+      default: commonConfig.status.default,
+    },
+    moderatedBy: {
+      type: mongoose.Types.ObjectId,
+    },
+    iDproof: {
+      type: [media],
     },
   },
   {

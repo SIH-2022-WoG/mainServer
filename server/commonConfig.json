@@ -2,5 +2,9 @@
     "branch" : {
         "values" : ["Electrical", "Electronics", "Computer Science", "IT", "Mechanical", "Misc"],
         "default" : "Misc"
+    },
+    "status" : {
+        "values" : ["pending", "rejected", "active"],
+        "default" : "pending"
     }
 }
