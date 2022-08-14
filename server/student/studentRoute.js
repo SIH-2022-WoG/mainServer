@@ -10,6 +10,11 @@ studentRouter.patch('/updateProfile', (req, res, next) => {
   studentController.updateProfile(req, res);
 });
 
+/** POST : create a thesis */
+studentRouter.post('/createThesis', (req, res, next) => {
+  studentController.createThesis(req, res);
+});
+
 /******************************** Public Routes ******************************/
 studentPublicRouter.get('/viewProfile', (req, res, next) => {
   studentController.viewProfile(req, res);
