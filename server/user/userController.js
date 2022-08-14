@@ -55,13 +55,14 @@ module.exports = {
         childId: newuser._id,
       };
       req.userId = userId;
-      userService.updateProfile(req, (err, userRes, statusCode) => {
-        if (parseInt(statusCode) === 400) {
-          console.log('error');
+      userService.updateProfile(req, (err, childRes, statusCode) => {
+        if (parseInt(statusCode) !== 200) {
+          responseHelper(err, res, childRes, statusCode);
+        } else {
+          userRes.childUser = childRes.data;
         }
       });
-      userRes.newuser = newuser;
-      responseHelper(err, res, userRes, statusCode);
+      return responseHelper(err, res, userRes, statusCode);
     });
   },
 

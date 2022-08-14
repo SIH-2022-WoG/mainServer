@@ -35,20 +35,15 @@ const studentSchema = mongoose.Schema(
       enum: commonConfig.branch.values,
       default: commonConfig.branch.default,
     },
-    interests: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    interests: {
+      type: [{ type: String, trim: true }],
+    },
     grade: {
       type: String,
     },
-    thesis: [
-      {
-        type: thesis,
-      },
-    ],
+    thesis: {
+      type: [{ type: thesis }],
+    },
     status: {
       type: String,
       enum: commonConfig.status.values,
