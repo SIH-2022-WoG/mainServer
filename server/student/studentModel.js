@@ -41,7 +41,7 @@ const studentSchema = mongoose.Schema(
     grade: {
       type: String,
     },
-    thesis: {
+    theses: {
       type: [{ type: thesis }],
     },
     status: {

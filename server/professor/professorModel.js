@@ -48,20 +48,11 @@ const professorSchema = mongoose.Schema(
       enum: commonConfig.branch.values,
       default: commonConfig.branch.default,
     },
-    interests: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    interests: [{ type: String, trim: true }],
     pastColleges: {
       type: collegeDetails,
     },
-    thesis: [
-      {
-        type: thesis,
-      },
-    ],
+    theses: [{ type: thesis }],
     status: {
       type: String,
       enum: commonConfig.status.values,

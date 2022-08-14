@@ -4,6 +4,7 @@ const studentService = require('./studentService');
 const responseHelper = require('../utils/responseHelper');
 const thesisService = require('../thesis/thesisService');
 const responseMessage = require('../utils/responseMessage');
+const professorService = require('../professor/professorService');
 
 module.exports = {
   updateProfile: (req, res) =>
@@ -40,8 +41,60 @@ module.exports = {
     req.body.college = studentdata.currCollege;
     req.body.collegeId = college.collegeId;
 
+    // create thesis
     thesisService.createThesis(req.body, (err, resdata, statuscode) => {
-      responseHelper(err, res, resdata, statuscode);
+      // if thesis creation is sucessfull
+      if (parseInt(statuscode) === 200) {
+        // update the students with the thesis data
+        const thesisdata = resdata.data;
+        const thesis = {
+          title: thesisdata.title,
+          guides: thesisdata.guides,
+          thesisId: thesisdata._id,
+        };
+        req.body = {
+          $push: { theses: thesis },
+        };
+        req.query.id = thesisdata.student.studentId;
+        // updating
+        studentService.updateProfile(req, (err, studentRes, statuscode) => {
+          const profRes = [];
+          // if student update is sucessfull
+          if (parseInt(statuscode) === 200) {
+            // update the professors
+            const guides = thesisdata.guides;
+            // for each professor in the guide
+            for (let prof in guides) {
+              const profId = prof.profId;
+              req.query.id = profId;
+              req.body = {
+                $push: { theses: thesis },
+              };
+              // update profile
+              professor = professorService.updateProfile(
+                req,
+                (err, profres, statuscode) => {
+                  // if any of the professor update fails
+                  if (statuscode !== 200) {
+                    return responseHelper(err, res, profres, statuscode);
+                  } else {
+                    profRes.push(profres);
+                  }
+                }
+              );
+              // thesis + prof update + student update is sucessfull
+              resdata.studentRes = studentRes;
+              resdata.profRes = profRes;
+              return responseHelper(err, res, resdata, statuscode);
+            }
+          } else {
+            // if student update fails
+            return responseHelper(err, res, studentRes, statuscode);
+          }
+        });
+      } else {
+        return responseHelper(err, res, resdata, statuscode);
+      }
     });
   },
 };
