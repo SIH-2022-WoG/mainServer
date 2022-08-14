@@ -50,20 +50,29 @@ module.exports = {
   updateProfile: async (req, callback) => {
     let response;
     try {
-      const userId = req.user._id;
+      let userId;
+      if (req.user.group === 'professor') {
+        userId = req.user._id;
+      } else {
+        userId = req.query.id;
+      }
+
       if (!userId) {
         response = new responseMessage.GenericFailureMessage();
         return callback(null, response, response.code);
       }
       console.log('INFO ::: ', userId);
-      const prof = await Professor.findOneAndUpdate(
-        { user: userId },
-        req.body,
-        {
-          runValidators: true,
-          new: true,
-        }
-      );
+      let query;
+      if (req.query.id) {
+        query = { _id: userId };
+      } else {
+        query = { user: userId };
+      }
+
+      const prof = await Professor.findOneAndUpdate(query, req.body, {
+        runValidators: true,
+        new: true,
+      });
       if (!prof) {
         response = new responseMessage.ObjectDoesNotExistInDB();
       } else {
