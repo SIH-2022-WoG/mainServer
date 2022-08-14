@@ -4,6 +4,7 @@ const collegeService = require('../college/collegeService');
 const studentService = require('../student/studentService');
 const professorService = require('../professor/professorService');
 const responseHelper = require('../utils/responseHelper');
+const userService = require('../user/userService');
 
 module.exports = {
   getPendingColleges: (req, res) => {
@@ -41,7 +42,16 @@ module.exports = {
     req.body.moderatedBy = user._id;
 
     studentService.updateProfile(req, (err, resdata, statuscode) => {
-      responseHelper(err, res, resdata, statuscode);
+      if (parseInt(statuscode) === 200 && req.body.status === 'active') {
+        req.body = {
+          active: true,
+        };
+        userService.updateProfile(req, (err, userdata, statuscode) => {
+          resdata.userdata = userdata;
+          return responseHelper(err, res, resdata, statuscode);
+        });
+      }
+      return responseHelper(err, res, resdata, statuscode);
     });
   },
 
@@ -50,7 +60,16 @@ module.exports = {
     req.body.moderatedBy = user._id;
 
     professorService.updateProfile(req, (err, resdata, statuscode) => {
-      responseHelper(err, res, resdata, statuscode);
+      if (parseInt(statuscode) === 200 && req.body.status === 'active') {
+        req.body = {
+          active: true,
+        };
+        userService.updateProfile(req, (err, userdata, statuscode) => {
+          resdata.userdata = userdata;
+          return responseHelper(err, res, resdata, statuscode);
+        });
+      }
+      return responseHelper(err, res, resdata, statuscode);
     });
   },
 };

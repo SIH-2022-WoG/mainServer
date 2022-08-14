@@ -73,6 +73,9 @@ const professorSchema = mongoose.Schema(
     iDproof: {
       type: [media],
     },
+    rejectionInfo: {
+      type: String,
+    },
   },
   {
     timestamps: true,
