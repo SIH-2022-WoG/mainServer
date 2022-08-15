@@ -44,7 +44,7 @@ module.exports = {
     studentService.updateProfile(req, (err, resdata, statuscode) => {
       if (parseInt(statuscode) === 200 && req.body.status === 'active') {
         req.body = {
-          active: true,
+          isActive: true,
         };
         userService.updateProfile(req, (err, userdata, statuscode) => {
           resdata.userdata = userdata;
@@ -62,7 +62,7 @@ module.exports = {
     professorService.updateProfile(req, (err, resdata, statuscode) => {
       if (parseInt(statuscode) === 200 && req.body.status === 'active') {
         req.body = {
-          active: true,
+          isActive: true,
         };
         userService.updateProfile(req, (err, userdata, statuscode) => {
           resdata.userdata = userdata;
