@@ -90,11 +90,11 @@ module.exports = {
     let response;
     if (!studentId) {
       response = new responseMessage.GenericFailureMessage();
-      response.message = 'Professor ID missing';
-      console.log('INFO ::: Professor ID missing');
+      response.message = 'Student ID missing';
+      console.log('INFO ::: Student ID missing');
       return callback(null, response, response.code);
     }
-
+    console.log('INFO  ::::   viewing student', studentId);
     try {
       const student = await Student.findById(studentId);
       response = new responseMessage.GenericSuccessMessage();
