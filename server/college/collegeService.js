@@ -2,6 +2,7 @@
 
 const College = require('./collegeModel');
 const responseMessage = require('../utils/responseMessage');
+const commonConfig = require('../commonConfig.json');
 
 /**Basic filter for getall */
 const basicFilter = {
@@ -122,5 +123,30 @@ module.exports = {
       response = new responseMessage.GenericFailureMessage();
       return callback(null, response, response.code);
     }
+  },
+
+  textSearch: async (req, callback) => {
+    const searchText = req.query.text;
+    if (!searchText || searchText.length > parseInt(commonConfig.searchLen)) {
+      const response = responseMessage.GenericFailureMessage();
+      return callback(null, response, parseInt(response.code));
+    }
+
+    const searchQuery = {
+      $text: {
+        $search: searchText,
+      },
+      status: commonConfig.status.active,
+    };
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const sort = req.query.sort || 'name';
+    const options = {
+      page: page,
+      limit: limit,
+      select: basicFilter,
+      sort: sort,
+    };
+    getPaginatedResults(searchQuery, options, callback);
   },
 };

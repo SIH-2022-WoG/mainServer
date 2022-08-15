@@ -22,4 +22,10 @@ module.exports = {
       responseHelper(err, res, resData, statusCode);
     });
   },
+
+  textSearch: (req, res) => {
+    collegeService.textSearch(req, (err, data, statusCode) => {
+      responseHelper(err, res, data, statusCode);
+    });
+  },
 };

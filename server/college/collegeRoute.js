@@ -23,4 +23,9 @@ collegePublicRouter.get('/view', (req, res, next) => {
   collegeController.viewCollege(req, res);
 });
 
+/** GET : text search on active colleges */
+collegePublicRouter.get('/textSearch', (req, res, next) => {
+  collegeController.textSearch(req, res);
+});
+
 module.exports = { collegeProtectedRouter, collegePublicRouter };

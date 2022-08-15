@@ -5,6 +5,9 @@
     },
     "status" : {
         "values" : ["pending", "rejected", "active", "incomplete"],
-        "default" : "incomplete"
-    }
+        "default" : "incomplete",
+        "active" : "active"
+    },
+    "searchLen" : 40
+    
 }
