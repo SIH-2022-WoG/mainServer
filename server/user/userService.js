@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const User = require('./userModel');
 const responseMessage = require('../utils/responseMessage');
 const sendEmail = require('../utils/sendEmail');
+const { default: mongoose } = require('mongoose');
 
 const signToken = (id) => {
   return jwt.sign({ id }, JWT_SECRET, {
@@ -37,8 +38,7 @@ module.exports = {
       const token = signToken(user._id);
       const response = new responseMessage.GenericSuccessMessage();
       response.data = {
-        message: 'User created successsfully !',
-        userId: user._id,
+        user: user,
       };
       response.token = token;
       return callback(null, response, response.code);
@@ -70,7 +70,11 @@ module.exports = {
       const token = signToken(user._id);
       const response = new responseMessage.AuthenticationSuccess();
       response.token = token;
-      response.group = user.group;
+      response.user = {
+        groupd: user.group,
+        childId: user.childId,
+        isActive: user.isActive,
+      };
       return callback(null, response, response.code);
     } catch (err) {
       console.log(`ERROR:::${err}`);
@@ -80,12 +84,25 @@ module.exports = {
   },
 
   updateProfile: async (req, callback) => {
-    const user = req.user;
+    const userId = req.userId || req.user._id;
+    if (!userId) {
+      const response = new responseMessage.GenericFailureMessage();
+      console.log('ERROR ::::   user id missing');
+      return callback(null, response, response.code);
+    }
+
     try {
-      const newUser = await User.findByIdAndUpdate(user.id, req.body, {
+      console.log(`INFO ::::::   User update for ${userId}, ${req.user.email}`);
+      console.log(`${JSON.stringify(req.body)}`);
+      const newUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
         runValidators: true,
       });
+
+      if (!newUser) {
+        const response = new responseMessage.invalidMongooseId();
+        return callback(null, response, response.code);
+      }
 
       const response = new responseMessage.GenericSuccessMessage();
       response.data = {

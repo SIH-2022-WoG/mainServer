@@ -2,9 +2,7 @@
 
 const userService = require('./userService');
 const responseHelper = require('../utils/responseHelper');
-const Professor = require('../professor/professorModel');
-const Student = require('../student/studentModel');
-const Moderator = require('../moderator/moderatorModel');
+const userTransaction = require('./userTransaction');
 
 const sendToken = (res, userRes) => {
   const token = userRes.token;
@@ -21,38 +19,8 @@ const sendToken = (res, userRes) => {
 
 module.exports = {
   signup: (req, res) => {
-    userService.signup(req.body, async (err, userRes, statusCode) => {
-      sendToken(res, userRes);
-      if (!userRes.data) {
-        console.log('ERROR ::: ', JSON.stringify(userRes));
-        return responseHelper(err, res, userRes, statusCode);
-      }
-
-      const userId = userRes.data.userId;
-      const group = req.body.group;
-      console.log(group);
-      let newuser;
-      console.log(userId);
-      try {
-        if (group == 'student') {
-          newuser = await Student.create({
-            user: userId,
-          });
-        } else if (group == 'professor') {
-          newuser = await Professor.create({
-            user: userId,
-          });
-        } else if (group == 'moderator') {
-          newuser = await Moderator.create({
-            user: userId,
-          });
-        }
-      } catch (err) {
-        console.log(err);
-        // delete the created user
-      }
-      userRes.newuser = newuser;
-      responseHelper(err, res, userRes, statusCode);
+    userTransaction.signUpTransaction(req, (err, userRes, statusCode) => {
+      return responseHelper(err, res, userRes, statusCode);
     });
   },
 
@@ -88,3 +56,39 @@ module.exports = {
     });
   },
 };
+
+/**
+ * Code that could have been used
+ * Async method for signup instead of transaction
+signup: async (req, res) => {
+  userService.signup(req.body, (err, userRes, statusCode) => {
+    if (parseInt(statusCode) === 200) {
+      const user = userRes.data.user;
+      req.body = {
+        user: user._id,
+      };
+      if (user.group === 'moderator') {
+        moderatorService.create(req, (err, childRes, statusCode) => {
+          if (parseInt(statusCode) === 200) {
+            user.childId = childRes.data._id;
+            req.user = user;
+            req.body = { childId: user.childId };
+            userService.updateProfile(req, (e, finalRes, code) => {
+              return responseHelper(e, res, finalRes, code);
+            });
+          } else {
+            return responseHelper(err, res, childRes, statusCode);
+          }
+        });
+      } else if (user.group === 'student') {
+        // student
+      } else if (user.group === 'professor') {
+        // professor
+      }
+    } else {
+      console.log('user creation fails');
+      return responseHelper(err, res, userRes, statusCode);
+    }
+  });
+},
+ */

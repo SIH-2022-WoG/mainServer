@@ -30,4 +30,10 @@ module.exports = {
     professorService.viewProfile(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     }),
+
+  textSearch: (req, res) => {
+    professorService.textSearch(req, (err, data, code) => {
+      responseHelper(err, res, data, code);
+    });
+  },
 };

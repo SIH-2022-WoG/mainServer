@@ -23,6 +23,10 @@ const studentSchema = mongoose.Schema(
     currCollege: {
       type: college,
     },
+    collegeId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'College',
+    },
     pastColleges: {
       type: college,
     },
@@ -31,20 +35,15 @@ const studentSchema = mongoose.Schema(
       enum: commonConfig.branch.values,
       default: commonConfig.branch.default,
     },
-    interests: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    interests: {
+      type: [{ type: String, trim: true }],
+    },
     grade: {
       type: String,
     },
-    thesis: [
-      {
-        type: thesis,
-      },
-    ],
+    theses: {
+      type: [{ type: thesis }],
+    },
     status: {
       type: String,
       enum: commonConfig.status.values,
@@ -56,6 +55,9 @@ const studentSchema = mongoose.Schema(
     iDproof: {
       type: [media],
     },
+    rejectionInfo: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -63,9 +65,9 @@ const studentSchema = mongoose.Schema(
 );
 
 studentSchema.plugin(mongoosePaginate);
-studentSchema.index({ interests: 1, branch: 1 });
+studentSchema.index({ interests: 1, branch: 1, collegeId: 1 });
 module.exports = mongoose.mainConnection.model(
-  'student',
+  'Student',
   studentSchema,
   'students'
 );

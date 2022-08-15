@@ -2,6 +2,7 @@
 
 const Professor = require('./professorModel');
 const responseMessage = require('../utils/responseMessage');
+const commonConfig = require('../commonConfig.json');
 
 /**Basic filter for getall */
 const basicFilter = {
@@ -48,28 +49,19 @@ async function getPaginatedResults(query, options, callback) {
 
 module.exports = {
   updateProfile: async (req, callback) => {
-    let response;
+    let response, profId;
+    if (req.query && req.query.id) {
+      profId = req.query.id;
+    } else if (req.user) {
+      profId = req.user.childId;
+    }
+    if (!profId) {
+      response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
+
     try {
-      let userId;
-      if (req.user.group === 'professor') {
-        userId = req.user._id;
-      } else {
-        userId = req.query.id;
-      }
-
-      if (!userId) {
-        response = new responseMessage.GenericFailureMessage();
-        return callback(null, response, response.code);
-      }
-      console.log('INFO ::: ', userId);
-      let query;
-      if (req.query.id) {
-        query = { _id: userId };
-      } else {
-        query = { user: userId };
-      }
-
-      const prof = await Professor.findOneAndUpdate(query, req.body, {
+      const prof = await Professor.findByIdAndUpdate(profId, req.body, {
         runValidators: true,
         new: true,
       });
@@ -88,8 +80,12 @@ module.exports = {
   },
 
   viewProfile: async (req, callback) => {
-    const profId = req.query.id;
-    let response;
+    let response, profId;
+    if (req.query && req.query.id) {
+      profId = req.query.id;
+    } else if (req.user) {
+      profId = req.user.childId;
+    }
     if (!profId) {
       response = new responseMessage.GenericFailureMessage();
       response.message = 'Professor ID missing';
@@ -122,5 +118,30 @@ module.exports = {
       sort: sort,
     };
     getPaginatedResults(query, options, callback);
+  },
+
+  textSearch: async (req, callback) => {
+    const searchText = req.query.text;
+    if (!searchText || searchText.length > parseInt(commonConfig.searchLen)) {
+      const response = responseMessage.GenericFailureMessage();
+      return callback(null, response, parseInt(response.code));
+    }
+
+    const searchQuery = {
+      $text: {
+        $search: searchText,
+      },
+      status: commonConfig.status.active,
+    };
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const sort = req.query.sort || 'name';
+    const options = {
+      page: page,
+      limit: limit,
+      select: basicFilter,
+      sort: sort,
+    };
+    getPaginatedResults(searchQuery, options, callback);
   },
 };

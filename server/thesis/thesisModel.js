@@ -11,19 +11,9 @@ const thesisConfig = require('./thesisConfig.json');
 
 const thesisSchema = mongoose.Schema(
   {
+    /** thesis details */
     title: {
       type: String,
-      required: true,
-    },
-    guides: [
-      {
-        type: professor,
-        required: true,
-      },
-    ],
-    student: {
-      type: student,
-      required: true,
     },
     abstract: {
       type: String,
@@ -32,25 +22,14 @@ const thesisSchema = mongoose.Schema(
     document: {
       type: media,
     },
-    /**this contains a redundant info */
-    college: {
-      type: college,
-      required: true,
-    },
-    collegeId: {
-      type: mongoose.Types.ObjectId,
-      required: true,
-    },
     branch: {
-      type: commonConfig.branch,
-      required: true,
+      type: String,
+      enum: commonConfig.branch.values,
+      default: commonConfig.branch.default,
     },
-    interests: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    interests: {
+      type: [{ type: String, trim: true }],
+    },
     fulltext: {
       type: media,
     },
@@ -70,16 +49,31 @@ const thesisSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+
+    /** References */
+    student: {
+      type: student,
+    },
+    college: {
+      type: college,
+    },
+    collegeId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'College',
+      required: true,
+    },
+    guides: {
+      type: [{ type: professor, required: true }],
+      required: true,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 thesisSchema.plugin(mongoosePaginate);
 thesisSchema.index({ branch: 1, interests: 1, collegeId: 1 });
 module.exports = mongoose.mainConnection.model(
-  'thesis',
+  'Thesis',
   thesisSchema,
-  'thesiss'
+  'theses'
 );

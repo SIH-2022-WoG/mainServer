@@ -15,6 +15,10 @@ const professorSchema = mongoose.Schema(
       trim: true,
       default: 'professor',
     },
+    collegeId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'College',
+    },
     phoneNumber: {
       type: String,
     },
@@ -44,20 +48,11 @@ const professorSchema = mongoose.Schema(
       enum: commonConfig.branch.values,
       default: commonConfig.branch.default,
     },
-    interests: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    interests: [{ type: String, trim: true }],
     pastColleges: {
       type: collegeDetails,
     },
-    thesis: [
-      {
-        type: thesis,
-      },
-    ],
+    theses: [{ type: thesis }],
     status: {
       type: String,
       enum: commonConfig.status.values,
@@ -69,6 +64,9 @@ const professorSchema = mongoose.Schema(
     iDproof: {
       type: [media],
     },
+    rejectionInfo: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -76,7 +74,7 @@ const professorSchema = mongoose.Schema(
 );
 
 professorSchema.plugin(mongoosePaginate);
-professorSchema.index({ branch: 1, interests: 1 });
+professorSchema.index({ branch: 1, interests: 1, collegeId: 1, name: 'text' });
 module.exports = mongoose.mainConnection.model(
   'Professor',
   professorSchema,

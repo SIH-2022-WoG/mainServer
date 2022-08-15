@@ -15,6 +15,11 @@ professorPublicRouter.get('/viewProfile', (req, res, next) => {
   professorController.viewProfile(req, res);
 });
 
+/** GET : text search by professor name */
+professorPublicRouter.get('/textSearch', (req, res, next) => {
+  professorController.textSearch(req, res);
+});
+
 /**GET : paginated professors */
 
 /************************** College related routes ****************************************/
