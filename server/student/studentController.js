@@ -76,7 +76,7 @@ module.exports = {
                     $push: { theses: thesis },
                   };
                   // update profile
-                  professor = professorService.updateProfile(
+                  professorService.updateProfile(
                     req,
                     (err, profres, statuscode) => {
                       // if any of the professor update fails
