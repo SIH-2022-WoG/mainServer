@@ -70,8 +70,11 @@ module.exports = {
       const token = signToken(user._id);
       const response = new responseMessage.AuthenticationSuccess();
       response.token = token;
-      response.group = user.group;
-      response.childId = user.childId;
+      response.user = {
+        groupd: user.group,
+        childId: user.childId,
+        isActive: user.isActive,
+      };
       return callback(null, response, response.code);
     } catch (err) {
       console.log(`ERROR:::${err}`);
