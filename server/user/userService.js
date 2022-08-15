@@ -87,17 +87,17 @@ module.exports = {
     const userId = req.userId || req.user._id;
     if (!userId) {
       const response = new responseMessage.GenericFailureMessage();
-      console.log('user id missing');
+      console.log('ERROR ::::   user id missing');
       return callback(null, response, response.code);
     }
 
     try {
-      console.log(`User update for ${userId}, ${req.user.email}`);
+      console.log(`INFO ::::::   User update for ${userId}, ${req.user.email}`);
       console.log(`${JSON.stringify(req.body)}`);
       const newUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
         runValidators: true,
-      }).exec();
+      });
 
       if (!newUser) {
         const response = new responseMessage.invalidMongooseId();

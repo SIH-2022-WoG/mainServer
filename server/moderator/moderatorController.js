@@ -43,6 +43,7 @@ module.exports = {
 
     studentService.updateProfile(req, (err, resdata, statuscode) => {
       if (parseInt(statuscode) === 200 && req.body.status === 'active') {
+        req.userId = resdata.data.user;
         req.body = {
           isActive: true,
         };
@@ -50,8 +51,9 @@ module.exports = {
           resdata.userdata = userdata;
           return responseHelper(err, res, resdata, statuscode);
         });
+      } else {
+        return responseHelper(err, res, resdata, statuscode);
       }
-      return responseHelper(err, res, resdata, statuscode);
     });
   },
 
@@ -61,6 +63,7 @@ module.exports = {
 
     professorService.updateProfile(req, (err, resdata, statuscode) => {
       if (parseInt(statuscode) === 200 && req.body.status === 'active') {
+        req.userId = resdata.data.user;
         req.body = {
           isActive: true,
         };
@@ -68,8 +71,9 @@ module.exports = {
           resdata.userdata = userdata;
           return responseHelper(err, res, resdata, statuscode);
         });
+      } else {
+        return responseHelper(err, res, resdata, statuscode);
       }
-      return responseHelper(err, res, resdata, statuscode);
     });
   },
 };
