@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const User = require('./userModel');
 const responseMessage = require('../utils/responseMessage');
 const sendEmail = require('../utils/sendEmail');
+const { default: mongoose } = require('mongoose');
 
 const signToken = (id) => {
   return jwt.sign({ id }, JWT_SECRET, {
@@ -37,8 +38,7 @@ module.exports = {
       const token = signToken(user._id);
       const response = new responseMessage.GenericSuccessMessage();
       response.data = {
-        message: 'User created successsfully !',
-        userId: user._id,
+        user: user,
       };
       response.token = token;
       return callback(null, response, response.code);
@@ -84,17 +84,20 @@ module.exports = {
     const userId = req.userId || req.user._id;
     if (!userId) {
       const response = new responseMessage.GenericFailureMessage();
+      console.log('user id missing');
       return callback(null, response, response.code);
     }
 
     try {
+      console.log(`User update for ${userId}, ${req.user.email}`);
+      console.log(`${JSON.stringify(req.body)}`);
       const newUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
         runValidators: true,
-      });
+      }).exec();
 
       if (!newUser) {
-        const response = new responseMessage.GenericFailureMessage();
+        const response = new responseMessage.invalidMongooseId();
         return callback(null, response, response.code);
       }
 
