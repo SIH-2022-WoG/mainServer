@@ -22,35 +22,41 @@ const sendToken = (res, userRes) => {
 };
 
 module.exports = {
-  signup: async (req, res) => {
-    userService.signup(req.body, (err, userRes, statusCode) => {
-      if (parseInt(statusCode) === 200) {
-        const user = userRes.data.user;
-        req.body = {
-          user: user._id,
-        };
-        if (user.group === 'moderator') {
-          moderatorService.create(req, (err, childRes, statusCode) => {
-            if (parseInt(statusCode) === 200) {
-              user.childId = childRes.data._id;
-              req.user = user;
-              req.body = { childId: user.childId };
-              userService.updateProfile(req, (e, finalRes, code) => {
-                return responseHelper(e, res, finalRes, code);
-              });
-            } else {
-              return responseHelper(err, res, childRes, statusCode);
-            }
-          });
-        } else if (user.group === 'student') {
-          // student
-        } else if (user.group === 'professor') {
-          // professor
-        }
-      } else {
-        console.log('user creation fails');
-        return responseHelper(err, res, userRes, statusCode);
-      }
+  // signup: async (req, res) => {
+  //   userService.signup(req.body, (err, userRes, statusCode) => {
+  //     if (parseInt(statusCode) === 200) {
+  //       const user = userRes.data.user;
+  //       req.body = {
+  //         user: user._id,
+  //       };
+  //       if (user.group === 'moderator') {
+  //         moderatorService.create(req, (err, childRes, statusCode) => {
+  //           if (parseInt(statusCode) === 200) {
+  //             user.childId = childRes.data._id;
+  //             req.user = user;
+  //             req.body = { childId: user.childId };
+  //             userService.updateProfile(req, (e, finalRes, code) => {
+  //               return responseHelper(e, res, finalRes, code);
+  //             });
+  //           } else {
+  //             return responseHelper(err, res, childRes, statusCode);
+  //           }
+  //         });
+  //       } else if (user.group === 'student') {
+  //         // student
+  //       } else if (user.group === 'professor') {
+  //         // professor
+  //       }
+  //     } else {
+  //       console.log('user creation fails');
+  //       return responseHelper(err, res, userRes, statusCode);
+  //     }
+  //   });
+  // },
+
+  signup: (req, res) => {
+    userTransaction.signUpTransaction(req, (err, userRes, statusCode) => {
+      return responseHelper(err, res, userRes, statusCode);
     });
   },
 

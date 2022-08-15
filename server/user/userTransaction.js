@@ -37,13 +37,13 @@ module.exports = {
           if (child && child[0]) {
             child = child[0];
             const childId = child._id;
-            console.log(user._id);
-            const updatedUser = await User.updateOne(
+            // console.log(user._id);
+            const updatedUser = await User.findByIdAndUpdate(
               user._id,
               { childId },
               { new: true, runValidators: true, session }
             );
-            console.log(updatedUser);
+            // console.log(updatedUser);
             if (updatedUser) {
               resdata.user = updatedUser;
               return updatedUser;
