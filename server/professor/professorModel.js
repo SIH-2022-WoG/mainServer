@@ -74,7 +74,8 @@ const professorSchema = mongoose.Schema(
 );
 
 professorSchema.plugin(mongoosePaginate);
-professorSchema.index({ branch: 1, interests: 1, collegeId: 1, name: 'text' });
+professorSchema.index({ branch: 1, interests: 1, collegeId: 1 });
+professorSchema.index({ name: 'text' });
 module.exports = mongoose.mainConnection.model(
   'Professor',
   professorSchema,
