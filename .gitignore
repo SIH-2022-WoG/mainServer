@@ -39,6 +39,7 @@ public/
 
 # temporary uploaded files
 uploads/
+uploadFile/
 
 dump.rdb
 

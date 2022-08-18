@@ -8,6 +8,7 @@
         "default" : "incomplete",
         "active" : "active"
     },
-    "searchLen" : 40
+    "searchLen" : 40,
+    "fileUploadFieldName" : "file"
     
 }

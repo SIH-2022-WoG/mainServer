@@ -168,4 +168,10 @@ module.exports = {
     status: 'success',
     message: 'Email reset link sent successfully.',
   },
+
+  fileUploadFailed: {
+    code: 500,
+    status: 'failure',
+    message: 'something went wrong. file upload failed',
+  },
 };

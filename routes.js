@@ -3,26 +3,42 @@
 /**health check route */
 const healthCheck = require('./server/utils/healthCheck');
 
-// user routes
+// User Routes
 const { preloginRouter, postloginRouter } = require('./server/user/userRoute');
-const {
-  isUserJWTAutheticatedMW,
-  isUserModeratorMW,
-} = require('./server/middlewares/user');
+
+// Professor Routes
 const {
   professorRouter,
   professorPublicRouter,
 } = require('./server/professor/professorRoute');
+
+// student Routes
 const {
   studentRouter,
   studentPublicRouter,
 } = require('./server/student/studentRoute');
-const { moderatorRouter } = require('./server/moderator/moderatorRoute');
+
+// moderator Routes
+const {
+  moderatorRouter,
+  moderatorFileUploadRouter,
+} = require('./server/moderator/moderatorRoute');
+
+// college Routes
 const {
   collegeProtectedRouter,
   collegePublicRouter,
 } = require('./server/college/collegeRoute');
+
+// thesis Routes
 const { thesisRouter } = require('./server/thesis/thesisRoute');
+
+/****************************   Middlewares ***************************/
+const { multerSingleUpload } = require('./server/middlewares/fileUpload');
+const {
+  isUserJWTAutheticatedMW,
+  isUserModeratorMW,
+} = require('./server/middlewares/user');
 
 module.exports = function (app) {
   app.use('/healthcheck', healthCheck);
@@ -33,9 +49,14 @@ module.exports = function (app) {
   app.use('/student/protected', [isUserJWTAutheticatedMW], studentRouter);
   app.use('/student/public', [], studentPublicRouter);
   app.use(
-    '/moderator',
+    '/moderator/auth',
     [isUserJWTAutheticatedMW, isUserModeratorMW],
     moderatorRouter
+  );
+  app.use(
+    '/moderator/fileUpload',
+    [multerSingleUpload],
+    moderatorFileUploadRouter
   );
   app.use(
     '/college/protected',

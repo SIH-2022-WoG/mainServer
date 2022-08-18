@@ -5,6 +5,7 @@ const studentService = require('../student/studentService');
 const professorService = require('../professor/professorService');
 const responseHelper = require('../utils/responseHelper');
 const userService = require('../user/userService');
+const moderatorService = require('../moderator/moderatorService');
 
 module.exports = {
   getPendingColleges: (req, res) => {
@@ -74,6 +75,12 @@ module.exports = {
       } else {
         return responseHelper(err, res, resdata, statuscode);
       }
+    });
+  },
+
+  uploadFile: (req, res) => {
+    moderatorService.uploadFile(req, (err, data, statusCode) => {
+      return responseHelper(err, res, data, statusCode);
     });
   },
 };
