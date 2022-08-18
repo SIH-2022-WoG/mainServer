@@ -22,6 +22,7 @@ const {
   collegeProtectedRouter,
   collegePublicRouter,
 } = require('./server/college/collegeRoute');
+const { thesisRouter } = require('./server/thesis/thesisRoute');
 
 module.exports = function (app) {
   app.use('/healthcheck', healthCheck);
@@ -42,4 +43,5 @@ module.exports = function (app) {
     collegeProtectedRouter
   );
   app.use('/college/public', [], collegePublicRouter);
+  app.use('/thesis', [], thesisRouter);
 };
