@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const profDetails = require('./professor').profDetails;
+const student = require('./student').studentDetails;
 
 const thesisDetailsSchema = new mongoose.Schema({
   _id: false,
@@ -15,6 +16,9 @@ const thesisDetailsSchema = new mongoose.Schema({
   thesisId: {
     type: mongoose.Types.ObjectId,
     required: true,
+  },
+  student: {
+    type: student,
   },
 });
 

@@ -61,6 +61,8 @@ module.exports = {
     }
 
     try {
+      console.log('INFO :::: profile update for ', JSON.stringify(profId));
+      console.log('INFO ::: Update INFO', JSON.stringify(req.body));
       const prof = await Professor.findByIdAndUpdate(profId, req.body, {
         runValidators: true,
         new: true,
