@@ -5,7 +5,6 @@ const responseHelper = require('../utils/responseHelper');
 const thesisService = require('../thesis/thesisService');
 const responseMessage = require('../utils/responseMessage');
 const professorService = require('../professor/professorService');
-const { response } = require('express');
 
 module.exports = {
   updateProfile: (req, res) =>
@@ -26,6 +25,14 @@ module.exports = {
     req.query = {
       id: studentId,
     };
+
+    // sanity check to check payload
+    const { guides, branch, title } = req.body;
+    if (!guides || !branch || !title) {
+      response = responseMessage.incorrectPayload;
+      return responseHelper(null, res, response, response.code);
+    }
+
     studentService.viewProfile(req, (err, resdata, statuscode) => {
       if (parseInt(statuscode) === 200) {
         studentdata = resdata.data;

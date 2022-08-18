@@ -1,168 +1,171 @@
 'use strict';
 
 function GenericSuccessMessage() {
-    this.code = 200;
-    this.status = "success";
+  this.code = 200;
+  this.status = 'success';
 }
 
 function GenericFailureMessage() {
-    this.code = 400;
-    this.status = "failure";
+  this.code = 400;
+  this.status = 'failure';
 }
 
 function ErrorInQueryingDB() {
-    this.code = 500;
-    this.status = "failure";
-    this.message = "Please try again after some time";
+  this.code = 500;
+  this.status = 'failure';
+  this.message = 'Please try again after some time';
 }
 
 function ObjectDoesNotExistInDB() {
-    this.code = 200;
-    this.status = "not_found";
-    this.message = "The queried object does not exist";
+  this.code = 200;
+  this.status = 'not_found';
+  this.message = 'The queried object does not exist';
 }
 
 function UpdateBadRequest() {
-    this.code = 400;
-    this.status = 'failure';
-    this.message = "Update failed";
+  this.code = 400;
+  this.status = 'failure';
+  this.message = 'Update failed';
 }
 
 function AuthenticationFailure() {
-    this.code = 401;
-    this.status = "failure";
-    this.message = "Authentication failed.";
+  this.code = 401;
+  this.status = 'failure';
+  this.message = 'Authentication failed.';
 }
 
 function AuthenticationSuccess() {
-    this.code = 200;
-    this.status = "success";
-    this.message = "Authentication successful.";
+  this.code = 200;
+  this.status = 'success';
+  this.message = 'Authentication successful.';
 }
 
 function invalidMongooseId(mongooseId) {
-    this.code = 400;
-    this.status = "failure";
-    this.message = `${mongooseId} is an invalid mongodb objectId.`
+  this.code = 400;
+  this.status = 'failure';
+  this.message = `${mongooseId} is an invalid mongodb objectId.`;
 }
 
 module.exports = {
-    // These are prototypes
-    GenericSuccessMessage: GenericSuccessMessage,
+  // These are prototypes
+  GenericSuccessMessage: GenericSuccessMessage,
 
-    GenericFailureMessage: GenericFailureMessage,
+  GenericFailureMessage: GenericFailureMessage,
 
-    ErrorInQueryingDB: ErrorInQueryingDB,
+  ErrorInQueryingDB: ErrorInQueryingDB,
 
-    ObjectDoesNotExistInDB: ObjectDoesNotExistInDB,
+  ObjectDoesNotExistInDB: ObjectDoesNotExistInDB,
 
-    UpdateBadRequest: UpdateBadRequest,
+  UpdateBadRequest: UpdateBadRequest,
 
-    AuthenticationFailure: AuthenticationFailure,
+  AuthenticationFailure: AuthenticationFailure,
 
-    AuthenticationSuccess: AuthenticationSuccess,
+  AuthenticationSuccess: AuthenticationSuccess,
 
-    invalidMongooseId: invalidMongooseId,
+  invalidMongooseId: invalidMongooseId,
 
-    tokenNotProvided: {
-        code: 403,
-        status: "failure",
-        message: "Access denied. Token not provided for authentication"
-    },
+  tokenNotProvided: {
+    code: 403,
+    status: 'failure',
+    message: 'Access denied. Token not provided for authentication',
+  },
 
-    tokenAuthenticationFailed: {
-        code: 403,
-        status: "failure",
-        message: "Access denied. Failed to authenticate token. Please login once again"
-    },
+  tokenAuthenticationFailed: {
+    code: 403,
+    status: 'failure',
+    message:
+      'Access denied. Failed to authenticate token. Please login once again',
+  },
 
-    tokenAuthenticationPassed: {
-        code: 200,
-        status: "success",
-        message: "Access allowed. Token successfully authenticated"
-    },
+  tokenAuthenticationPassed: {
+    code: 200,
+    status: 'success',
+    message: 'Access allowed. Token successfully authenticated',
+  },
 
-    tokenVerificationPassed: {
-        code: 200,
-        status: "success",
-        message: "token verified"
-    },
+  tokenVerificationPassed: {
+    code: 200,
+    status: 'success',
+    message: 'token verified',
+  },
 
-    tokenVerificationFailed: {
-        code: 400,
-        status: "failure",
-        message: "token is invalid or has expired"
-    },
+  tokenVerificationFailed: {
+    code: 400,
+    status: 'failure',
+    message: 'token is invalid or has expired',
+  },
 
-    accessDenied: {
-        code: 403,
-        status: "failure",
-        message: "Access denied. Operation not permitted"
-    },
+  accessDenied: {
+    code: 403,
+    status: 'failure',
+    message: 'Access denied. Operation not permitted',
+  },
 
-    incorrectPayload: {
-        code: 400,
-        status: "failure",
-        message: "Payload is not correct. It's missing one or more of the required information."
-    },
+  incorrectPayload: {
+    code: 400,
+    status: 'failure',
+    message:
+      "Payload is not correct. It's missing one or more of the required information.",
+  },
 
-    invalidUserName: {
-        code: 400,
-        status: "failure",
-        message: "username incorrect. Enter your registered mobile number/registered email"
-    },
+  invalidUserName: {
+    code: 400,
+    status: 'failure',
+    message:
+      'username incorrect. Enter your registered mobile number/registered email',
+  },
 
-    invalidEmail: {
-        code: 400,
-        status: "failure",
-        message: "email incorrect. Enter your registered email"
-    },
+  invalidEmail: {
+    code: 400,
+    status: 'failure',
+    message: 'email incorrect. Enter your registered email',
+  },
 
-    operationProhibited: {
-        code: 400,
-        status: "failure",
-        message: "You are prohibited to perform the given operation"
-    },
+  operationProhibited: {
+    code: 400,
+    status: 'failure',
+    message: 'You are prohibited to perform the given operation',
+  },
 
-    missingOrBadAuthentication: {
-        code: 401,
-        status: "failure",
-        message: "Missing or bad authentication"
-    },
+  missingOrBadAuthentication: {
+    code: 401,
+    status: 'failure',
+    message: 'Missing or bad authentication',
+  },
 
-    userNotAuthorized: {
-        code: 401,
-        status: "failure",
-        message: 'User not authorized to perform this operation'
-    },
+  userNotAuthorized: {
+    code: 401,
+    status: 'failure',
+    message: 'User not authorized to perform this operation',
+  },
 
-    userPropertyNotFound: {
-        code: 400,
-        status: "failure",
-        message: "user property not found"
-    },
+  userPropertyNotFound: {
+    code: 400,
+    status: 'failure',
+    message: 'user property not found',
+  },
 
-    mobileNumberNotFound: {
-        code: 400,
-        status: "failure",
-        message: "mobile number not found"
-    },
+  mobileNumberNotFound: {
+    code: 400,
+    status: 'failure',
+    message: 'mobile number not found',
+  },
 
-    urlNotFound: {
-        code: 404,
-        status: "failure",
-        message: "Incorrect URL"
-    },
+  urlNotFound: {
+    code: 404,
+    status: 'failure',
+    message: 'Incorrect URL',
+  },
 
-    emailNotSent: {
-        code: 500,
-        status: "failure",
-        message: "Email was not sent, Try again."
-    },
+  emailNotSent: {
+    code: 500,
+    status: 'failure',
+    message: 'Email was not sent, Try again.',
+  },
 
-    emailSent: {
-        code: 200,
-        status: "success",
-        message: "Email reset link sent successfully."
-    }
+  emailSent: {
+    code: 200,
+    status: 'success',
+    message: 'Email reset link sent successfully.',
+  },
 };
