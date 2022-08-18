@@ -22,4 +22,12 @@ module.exports = {
       return callback(null, response, response.code);
     }
   },
+
+  uploadFile: (req, callback) => {
+    const response = new responseMessage.GenericSuccessMessage();
+    response.data = {
+      filename: req.file.filename,
+    };
+    return callback(null, response, response.code);
+  },
 };

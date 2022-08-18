@@ -44,11 +44,12 @@ const collegeSchema = mongoose.Schema(
       default: 0,
     },
     createdBy: {
-      type: mongoose.ObjectId,
+      type: mongoose.Types.ObjectId,
       required: true,
     },
     moderatedBy: {
-      type: mongoose.ObjectId,
+      type: mongoose.Types.ObjectId,
+      ref: 'Moderator',
     },
     status: {
       type: String,

@@ -2,6 +2,7 @@
 
 const express = require('express');
 const moderatorRouter = express.Router();
+const moderatorFileUploadRouter = express.Router();
 const moderatorController = require('./moderatorController');
 
 /** GET : pending colleges */
@@ -34,6 +35,12 @@ moderatorRouter.patch('/college/setStatus', (req, res, next) => {
   moderatorController.setStatusCollege(req, res);
 });
 
+/** File Upload */
+moderatorFileUploadRouter.post('/colleges', (req, res, next) => {
+  moderatorController.uploadFile(req, res);
+});
+
 module.exports = {
   moderatorRouter,
+  moderatorFileUploadRouter,
 };
