@@ -80,7 +80,11 @@ module.exports = {
 
   uploadFile: (req, res) => {
     moderatorService.uploadFile(req, (err, data, statusCode) => {
-      return responseHelper(err, res, data, statusCode);
+      if (statusCode === 200) {
+        collegeService.createBulkColleges(req, (err, collegeData, code) => {
+          return responseHelper(err, res, collegeData, code);
+        });
+      } else return responseHelper(err, res, data, statusCode);
     });
   },
 };

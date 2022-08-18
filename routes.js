@@ -55,7 +55,7 @@ module.exports = function (app) {
   );
   app.use(
     '/moderator/fileUpload',
-    [multerSingleUpload],
+    [isUserJWTAutheticatedMW, isUserModeratorMW, multerSingleUpload],
     moderatorFileUploadRouter
   );
   app.use(

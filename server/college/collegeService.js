@@ -3,7 +3,8 @@
 const College = require('./collegeModel');
 const responseMessage = require('../utils/responseMessage');
 const commonConfig = require('../commonConfig.json');
-
+const fs = require('fs');
+const reader = require('xlsx');
 /**Basic filter for getall */
 const basicFilter = {
   name: 1,
@@ -149,5 +150,36 @@ module.exports = {
       sort: sort,
     };
     getPaginatedResults(searchQuery, options, callback);
+  },
+
+  /** Create Bulk Colleges */
+  createBulkColleges: async (req, callback) => {
+    let response;
+    try {
+      const filename = req.file.filename;
+      const file = reader.readFile(__dirname + '/../../uploadFile/' + filename);
+      const data = [];
+      const sheets = file.SheetNames;
+      const moderatorId = req.user.childId;
+      for (let i = 0; i < sheets.length; i++) {
+        const temp = reader.utils.sheet_to_json(
+          file.Sheets[file.SheetNames[i]]
+        );
+        temp.forEach((res) => {
+          res['createdBy'] = moderatorId;
+          res['moderatedBy'] = moderatorId;
+          data.push(res);
+        });
+      }
+
+      const newColleges = await College.insertMany(data);
+      response = new responseMessage.GenericSuccessMessage();
+      response.data = { newColleges };
+      return callback(null, response, response.code);
+    } catch (err) {
+      console.log('ERROR in bulk import ::: ' + err);
+      response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
   },
 };
