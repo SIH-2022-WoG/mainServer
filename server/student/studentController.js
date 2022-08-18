@@ -38,13 +38,14 @@ module.exports = {
         }
 
         /** Adding student credentials to the data */
-        req.body.student = {
+        const student = {
           name: studentdata.name,
           studentId: studentId,
           email: studentdata.email,
         };
         req.body.college = studentdata.currCollege;
         req.body.collegeId = studentdata.currCollege.collegeId;
+        req.body.student = student;
 
         // create thesis
         thesisService.createThesis(req.body, (err, resdata, statuscode) => {
@@ -56,6 +57,7 @@ module.exports = {
               title: thesisdata.title,
               guides: thesisdata.guides,
               thesisId: thesisdata._id,
+              student: student,
             };
             req.body = {
               $push: { theses: thesis },
@@ -63,19 +65,22 @@ module.exports = {
             req.query.id = thesisdata.student.studentId;
             // updating
             studentService.updateProfile(req, (err, studentRes, statuscode) => {
-              const profRes = [];
               // if student update is sucessfull
               if (parseInt(statuscode) === 200) {
                 // update the professors
                 const guides = thesisdata.guides;
+                console.log(guides);
                 // for each professor in the guide
-                for (let prof in guides) {
+                const profRes = [];
+                for (let x in guides) {
+                  const prof = guides[x];
+                  console.log('update for prof', prof);
                   const profId = prof.profId;
                   req.query.id = profId;
                   req.body = {
                     $push: { theses: thesis },
                   };
-                  // update profile
+                  // update profile of professor
                   professorService.updateProfile(
                     req,
                     (err, profres, statuscode) => {
@@ -87,11 +92,11 @@ module.exports = {
                       }
                     }
                   );
-                  // thesis + prof update + student update is sucessfull
-                  resdata.studentRes = studentRes;
-                  resdata.profRes = profRes;
-                  return responseHelper(err, res, resdata, statuscode);
                 }
+                // thesis + prof update + student update is sucessfull
+                // resdata.studentRes = studentRes;
+                // resdata.profRes = profRes;
+                return responseHelper(err, res, resdata, statuscode);
               } else {
                 // if student update fails
                 return responseHelper(err, res, studentRes, statuscode);

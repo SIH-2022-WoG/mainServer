@@ -128,7 +128,8 @@ module.exports = {
   textSearch: async (req, callback) => {
     const searchText = req.query.text;
     if (!searchText || searchText.length > parseInt(commonConfig.searchLen)) {
-      const response = responseMessage.GenericFailureMessage();
+      const response = new responseMessage.GenericFailureMessage();
+      response.message = 'please provide a search query';
       return callback(null, response, parseInt(response.code));
     }
 
