@@ -88,10 +88,11 @@ module.exports = {
       return callback(null, response, response.code);
     }
     try {
-      const data = Thesis.findById(tid);
+      const data = await Thesis.findById(tid);
       if (data) {
         response = new responseMessage.GenericSuccessMessage();
         response.data = data;
+        // console.log(data);
       } else {
         response = new responseMessage.ObjectDoesNotExistInDB();
       }
