@@ -22,6 +22,9 @@ const thesisSchema = mongoose.Schema(
     document: {
       type: media,
     },
+    textextract: {
+      type: media,
+    },
     branch: {
       type: String,
       enum: commonConfig.branch.values,
