@@ -22,9 +22,6 @@ const thesisSchema = mongoose.Schema(
     document: {
       type: media,
     },
-    textextract: {
-      type: media,
-    },
     branch: {
       type: String,
       enum: commonConfig.branch.values,
@@ -36,12 +33,15 @@ const thesisSchema = mongoose.Schema(
     fulltext: {
       type: media,
     },
+    thesisMedia: {
+      type: media,
+    },
     dateOfAcceptance: {
       type: Date,
     },
     plagiarismReport: {
       type: Map,
-      of: [mongoose.Types.ObjectId],
+      of: String,
     },
     status: {
       type: String,
