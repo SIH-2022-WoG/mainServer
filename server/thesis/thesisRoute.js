@@ -8,6 +8,10 @@ thesisRouter.get('/viewAll', (req, res, next) => {
   thesisController.getAllThesis(req, res);
 });
 
+thesisRouter.get('/viewOne', (req, res, next) => {
+  thesisController.viewOne(req, res);
+});
+
 module.exports = {
   thesisRouter,
 };

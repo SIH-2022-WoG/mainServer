@@ -65,3 +65,6 @@ global.redisDBNumber = redisDBNumber;
 // global.API_KEYS_ARR = apiKeysArr;
 
 // global.YT_API_KEY = apiKeysArr.pop();
+
+/** API endpoints  */
+global.ELASTIC_API = process.env.elasticAPI;
