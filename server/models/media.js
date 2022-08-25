@@ -1,30 +1,23 @@
-'use strict'
-const mongoose = require("mongoose");
+'use strict';
+const mongoose = require('mongoose');
+const validators = require('../utils/validators');
 
 /**
  * This is a model to store response received when uploading file via uploader service
- * @property {String} s3Url
- * @property {String} cfUrl
+ * @property {String} cloudUrl
  * @property {String} mediaId
  */
 const mediaDetailsSchema = new mongoose.Schema({
-    _id: false,
-    s3Url: {
-        type: String,
-        required: [true, "s3Url is required"],
-        trim: true
-    },
-    cfUrl: {
-        type: String,
-        required: [true, "cfUrl is required"],
-        trim: true
-    },
-    mediaId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: [true, "mediaId is required"]
-    }
+  _id: false,
+  cloudUrl: {
+    type: String,
+    validate: validators.urlValidator,
+  },
+  mediaId: {
+    type: String,
+  },
 });
 
 module.exports = {
-    mediaDetails: mediaDetailsSchema,
-}
+  mediaDetails: mediaDetailsSchema,
+};

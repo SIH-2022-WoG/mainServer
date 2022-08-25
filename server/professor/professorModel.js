@@ -19,6 +19,9 @@ const professorSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'College',
     },
+    avatar: {
+      type: media,
+    },
     phoneNumber: {
       type: String,
     },
@@ -62,7 +65,7 @@ const professorSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
     },
     iDproof: {
-      type: [media],
+      type: media,
     },
     rejectionInfo: {
       type: String,

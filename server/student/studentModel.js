@@ -27,6 +27,9 @@ const studentSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'College',
     },
+    avatar: {
+      type: media,
+    },
     pastColleges: {
       type: college,
     },
@@ -53,7 +56,7 @@ const studentSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
     },
     iDproof: {
-      type: [media],
+      type: media,
     },
     rejectionInfo: {
       type: String,
