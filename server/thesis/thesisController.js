@@ -9,4 +9,10 @@ module.exports = {
       responseHelper(err, res, resData, statusCode);
     });
   },
+
+  viewOne: (req, res) => {
+    thesisService.viewOne(req, (err, resData, statusCode) => {
+      return responseHelper(err, res, resData, statusCode);
+    });
+  },
 };

@@ -79,4 +79,27 @@ module.exports = {
     };
     getPaginatedResults(query, options, callback);
   },
+
+  viewOne: async (req, callback) => {
+    const tid = req.query.id;
+    let response;
+    if (!tid) {
+      response = responseMessage.incorrectPayload;
+      return callback(null, response, response.code);
+    }
+    try {
+      const data = Thesis.findById(tid);
+      if (data) {
+        response = new responseMessage.GenericSuccessMessage();
+        response.data = data;
+      } else {
+        response = new responseMessage.ObjectDoesNotExistInDB();
+      }
+      return callback(null, response, response.code);
+    } catch (err) {
+      console.log('ERROR ::: in thesis Service\n', err);
+      response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
+  },
 };
