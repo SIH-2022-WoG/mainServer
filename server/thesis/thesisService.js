@@ -103,4 +103,18 @@ module.exports = {
       return callback(null, response, response.code);
     }
   },
+
+  updateThesis: (req) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await Thesis.findByIdAndUpdate(req.query.id, req.body, {
+          new: true,
+          runValidators: true,
+        });
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  },
 };

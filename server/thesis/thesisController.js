@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const thesisService = require('./thesisService');
 const responseHelper = require('../utils/responseHelper');
 const responseMessage = require('../utils/responseMessage');
+const commonConfig = require('../commonConfig.json');
 
 module.exports = {
   getAllThesis: (req, res) => {
@@ -39,9 +40,22 @@ module.exports = {
             headers: { 'Content-Type': 'application/json' },
           });
           const data = await result.json();
-          // console.log(result);
+          const thesisId = req.query.id;
+          // console.log(data);
+          if (Number(data.percentage) < commonConfig.allowedPlag) {
+            req.body = {
+              status: 'accepted',
+            };
+          } else {
+            req.body = {
+              status: 'rejected',
+            };
+          }
+          req.body.plagiarismReport = data.report;
+          req.body.plagPercentage = data.percentage;
+          const thesis = await thesisService.updateThesis(req);
           response = new responseMessage.GenericSuccessMessage();
-          response.data = data;
+          response.data = thesis;
           return responseHelper(null, res, response, response.code);
         } catch (err) {
           console.log(err);
