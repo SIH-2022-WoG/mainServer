@@ -24,6 +24,7 @@ module.exports = {
     thesisService.viewOne(req, async (err, resdata, statuscode) => {
       if (parseInt(statuscode) === 200) {
         const thesisData = resdata.data;
+        // console.log(thesisData);
         if (!thesisData.fulltext) {
           response = new responseMessage.GenericFailureMessage();
           return responseHelper(null, res, response, response.code);
@@ -32,15 +33,16 @@ module.exports = {
           const lang = Number(req.query.lang) || 0;
           const endPoint = ELASTIC_API + `/plagiarism/calculate/?lang=${lang}`;
           const body = {
-            fileUrl: req.body.fileUrl,
+            fileUrl: thesisData.fulltext.cloudUrl,
           };
+          // console.log(body);
           const result = await fetch(endPoint, {
             method: 'post',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' },
           });
           const data = await result.json();
-          const thesisId = req.query.id;
+          // const thesisId = req.query.id;
           // console.log(data);
           if (Number(data.percentage) < commonConfig.allowedPlag) {
             req.body = {
@@ -54,8 +56,25 @@ module.exports = {
           req.body.plagiarismReport = data.report;
           req.body.plagPercentage = data.percentage;
           const thesis = await thesisService.updateThesis(req);
+
+          let createIndex;
+          if (req.body.status === 'accepted') {
+            const createUrl = ELASTIC_API + '/plagiarism/create/';
+            const body = {
+              fileUrl: thesisData.fulltext.cloudUrl,
+              thesisId: thesisData._id,
+              title: thesisData.title,
+            };
+            console.log(createUrl);
+            createIndex = await fetch(createUrl, {
+              method: 'post',
+              body: JSON.stringify(body),
+              headers: { 'Content-Type': 'application/json' },
+            });
+          }
           response = new responseMessage.GenericSuccessMessage();
           response.data = thesis;
+          response.newIndex = createIndex;
           return responseHelper(null, res, response, response.code);
         } catch (err) {
           console.log(err);
