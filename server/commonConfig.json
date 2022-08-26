@@ -9,6 +9,7 @@
         "active" : "active"
     },
     "searchLen" : 40,
-    "fileUploadFieldName" : "file"
+    "fileUploadFieldName" : "file",
+    "allowedPlag" : 10
     
 }
