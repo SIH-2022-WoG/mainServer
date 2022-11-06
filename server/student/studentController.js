@@ -1,5 +1,7 @@
 'use strict';
 
+const fetch = require('node-fetch');
+
 const studentService = require('./studentService');
 const responseHelper = require('../utils/responseHelper');
 const thesisService = require('../thesis/thesisService');
@@ -16,6 +18,64 @@ module.exports = {
     studentService.viewProfile(req, (err, resdata, statuscode) => {
       responseHelper(err, res, resdata, statuscode);
     }),
+
+  uploadNonOCR: (req, res) => {
+    return studentService.uploadNonOCR(req, (err, resdata, statuscode) => {
+      return responseHelper(err, res, resdata, statuscode);
+    });
+  },
+
+  createThesisExternal: async (req, res) => {
+    req.query = {
+      id: req.body.sid,
+    };
+    studentService.viewProfile(req, (err, studentData, statuscode) => {
+      console.log(studentData);
+      if (Number(statuscode) === 200) {
+        const thesisBody = {
+          college: studentData.data.currCollege,
+          student: {
+            name: studentData.data.name,
+            studentId: studentData.data._id,
+          },
+          collegeId: studentData.data.currCollege.collegeId,
+          fulltext: {
+            cloudUrl: req.body.tUrl,
+          },
+          thesisMedia: {
+            cloudUrl: req.body.mUrl,
+          },
+        };
+        thesisService.createThesis(
+          thesisBody,
+          (err, thesisData, statuscode) => {
+            if (Number(statuscode) === 200) {
+              const thesisdata = thesisData.data;
+              const thesis = {
+                title: 'to be filled',
+                thesisId: thesisdata._id,
+                student: {
+                  name: studentData.data.name,
+                  studentId: studentData.data._id,
+                },
+              };
+              req.body = {
+                $push: { theses: thesis },
+              };
+              studentService.updateProfile(
+                req,
+                (err, studentData, statuscode) => {
+                  return responseHelper(err, res, studentData, statuscode);
+                }
+              );
+            } else return responseHelper(err, res, thesisData, statuscode);
+          }
+        );
+      } else {
+        return responseHelper(null, res, studentData, statuscode);
+      }
+    });
+  },
 
   /** Incomplete function */
   createThesis: (req, res) => {
@@ -117,5 +177,22 @@ module.exports = {
         return responseHelper(err, res, resdata, statuscode);
       }
     });
+  },
+
+  imageThesis: async (req, res) => {
+    try {
+      const studentId = req.user.childId;
+      const iUrl = req.body.url;
+
+      const url_to_fetch =
+        TESSERACT_URL + '/tesseract' + '/extract' + '?url=' + iUrl;
+
+      const tResponse = await fetch(url_to_fetch);
+      const data = await tResponse.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+      return responseHelper(null, res, responseMessage.ErrorInQueryingDB, 500);
+    }
   },
 };

@@ -68,3 +68,4 @@ global.redisDBNumber = redisDBNumber;
 
 /** API endpoints  */
 global.ELASTIC_API = process.env.elasticAPI;
+global.TESSERACT_URL = process.env.TESSERACT_URL;
