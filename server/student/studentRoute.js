@@ -15,6 +15,10 @@ studentRouter.post('/createThesis', (req, res, next) => {
   studentController.createThesis(req, res);
 });
 
+studentRouter.post('/uploadNonOCR', (req, res, next) => {
+  studentController.uploadNonOCR(req, res);
+});
+
 /******************************** Public Routes ******************************/
 studentPublicRouter.get('/viewProfile', (req, res, next) => {
   studentController.viewProfile(req, res);

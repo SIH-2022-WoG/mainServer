@@ -121,4 +121,11 @@ module.exports = {
     };
     getPaginatedResults(query, options, callback);
   },
+
+  uploadNonOCR: async (req, callback) => {
+    const studentId = req.user.childId;
+    console.log(studentId);
+    const response = new responseMessage.GenericSuccessMessage();
+    return callback(null, response, response.code);
+  },
 };

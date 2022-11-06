@@ -17,6 +17,12 @@ module.exports = {
       responseHelper(err, res, resdata, statuscode);
     }),
 
+  uploadNonOCR: (req, res) => {
+    return studentService.uploadNonOCR(req, (err, resdata, statuscode) => {
+      return responseHelper(err, res, resdata, statuscode);
+    });
+  },
+
   /** Incomplete function */
   createThesis: (req, res) => {
     const studentId = req.user.childId;
