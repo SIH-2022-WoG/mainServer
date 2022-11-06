@@ -134,7 +134,14 @@ module.exports = {
     }
 
     console.log(studentId);
-    const tUrl = TESSERACT_URL + '/tesseract' + '/extract' + '?url=' + imageUrl;
+    const tUrl =
+      TESSERACT_URL +
+      '/tesseract' +
+      '/extract' +
+      '?url=' +
+      imageUrl +
+      '&sid=' +
+      studentId;
     const tResponse = await fetch(tUrl);
     const data = await tResponse.json();
     response = new responseMessage.GenericSuccessMessage();

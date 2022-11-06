@@ -20,9 +20,21 @@ studentRouter.post('/uploadNonOCR', (req, res, next) => {
   studentController.uploadNonOCR(req, res);
 });
 
+// studentRouter.post('/imageThesis', (req, res, next) => {
+//   studentController.imageThesis(req, res);
+// });
+
 /******************************** Public Routes ******************************/
 studentPublicRouter.get('/viewProfile', (req, res, next) => {
   studentController.viewProfile(req, res);
+});
+
+studentPublicRouter.post('/createThesisExternal', (req, res, next) => {
+  studentController.createThesisExternal(req, res);
+});
+
+studentPublicRouter.post('/imageThesis', (req, res, next) => {
+  studentController.imageThesis(req, res);
 });
 
 module.exports = {
