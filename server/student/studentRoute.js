@@ -15,6 +15,7 @@ studentRouter.post('/createThesis', (req, res, next) => {
   studentController.createThesis(req, res);
 });
 
+/** POST : upload NonOCR Images */
 studentRouter.post('/uploadNonOCR', (req, res, next) => {
   studentController.uploadNonOCR(req, res);
 });

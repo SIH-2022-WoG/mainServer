@@ -2,6 +2,7 @@
 
 const Student = require('./studentModel');
 const responseMessage = require('../utils/responseMessage');
+const fetch = require('node-fetch');
 
 /**Basic filter for getall */
 const basicFilter = {
@@ -124,8 +125,20 @@ module.exports = {
 
   uploadNonOCR: async (req, callback) => {
     const studentId = req.user.childId;
+    const imageUrl = req.body.imageUrl;
+
+    let response;
+    if (!studentId || !imageUrl) {
+      response = new responseMessage.GenericFailureMessage();
+      return callback(null, response, response.code);
+    }
+
     console.log(studentId);
-    const response = new responseMessage.GenericSuccessMessage();
+    const tUrl = TESSERACT_URL + '/tesseract' + '/extract' + '?url=' + imageUrl;
+    const tResponse = await fetch(tUrl);
+    const data = await tResponse.json();
+    response = new responseMessage.GenericSuccessMessage();
+    response.data = data;
     return callback(null, response, response.code);
   },
 };
