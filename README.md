@@ -1,3 +1,11 @@
+# GateWay
+
+This microservice directly interacts to the react client.
+
+### Architecture
+
+![](screenshots/Auth%20Flows.png)
+
 ## Setup
 
 - Create a `.env` file corrosponding to the values in [example.env](example.env) and put it inside the config folder
